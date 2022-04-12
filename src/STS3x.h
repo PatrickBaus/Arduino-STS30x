@@ -53,17 +53,15 @@ class STS3x {
     #else
     STS3x(TwoWire& i2cBus, const uint8_t address=0x4A);
     #endif
-    void begin(void);
-
     void setHeaterState(const bool enable);
     void setContinousSampling(const MeasurementsPerSecond mps, const Repeatability rep);
     bool readStatus(SensorStatus& status);
     void clearStatus(void);
     void reset(void);
     void stopConversion(void);
-    float readTemp(void);
+    float readTemp(const Repeatability repeatability=REP_HIGH);
     float fetchTemp(void);
-    uint16_t readTempRaw(void);
+    uint16_t readTempRaw(const Repeatability repeatability=REP_HIGH);
     uint16_t fetchTempRaw(void);
     uint32_t readSerial(void);
     bool readAlertLimitsHigh(uint16_t& set, uint16_t& clear);
@@ -73,13 +71,12 @@ class STS3x {
     static float convertToCelsius(const uint16_t value);
     static uint16_t convertToRaw(const float value);
   private:
-    uint8_t _i2c_addr;
     #if defined(__arm__) && defined(TEENSYDUINO)
     i2c_t3* _pI2cBus = NULL;
     #else
     TwoWire* _pI2cBus = NULL;
     #endif
-
+    uint8_t _i2c_addr;
 
     static const uint16_t CMD_SOFTRESET = 0x30A2;
     static const uint16_t CMD_BREAK = 0x3093;
@@ -89,6 +86,8 @@ class STS3x {
     static const uint16_t CMD_CLEAR_STATUS = 0x3041;
     static const uint16_t CMD_READ_SERIAL = 0x3780;
     static const uint16_t CMD_MEASURE_HIGH_REAPEATABILITY = 0x2400;
+    static const uint16_t CMD_MEASURE_MEDIUM_REAPEATABILITY = 0x240B;
+    static const uint16_t CMD_MEASURE_LOW_REAPEATABILITY = 0x2416;
     static const uint16_t CMD_FETCH_PERIODIC_RESULT = 0xE000;
     static const uint16_t CMD_READ_ALERT_LIMIT_HIGH_SET = 0xE11F;
     static const uint16_t CMD_READ_ALERT_LIMIT_HIGH_CLEAR = 0xE114;
@@ -109,7 +108,7 @@ class STS3x {
 
     bool writeCommand(const uint16_t command, const uint8_t* data=NULL, const size_t len=0);
     bool queryCommand(const uint16_t command, uint8_t* result, const size_t len, const uint16_t delayus=0);
-    bool readTempRaw(uint16_t &value);
+    bool readTempRaw(uint16_t &value, const Repeatability repeatability=REP_HIGH);
     bool fetchTempRaw(uint16_t &value);
     static uint8_t crc8(const uint8_t* data, const size_t len);
 };

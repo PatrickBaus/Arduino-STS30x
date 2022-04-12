@@ -19,10 +19,6 @@ STS3x::STS3x(i2c_t3& i2cBus, const uint8_t address) : _pI2cBus(&i2cBus), _i2c_ad
 STS3x::STS3x(TwoWire& i2cBus, const uint8_t address) : _pI2cBus(&i2cBus), _i2c_addr(address) {};
 #endif
 
-void STS3x::begin(void) {
-  _pI2cBus->begin();
-}
-
 uint8_t STS3x::crc8(const uint8_t* data, const size_t len) {
   // Calculate CRC with the following parameters (datasheet p. 10):
   // Type: CRC-8
@@ -126,9 +122,9 @@ void STS3x::setHeaterState(const bool enable) {
   delayMicroseconds(10);
 }
 
-float STS3x::readTemp(void) {
+float STS3x::readTemp(const Repeatability repeatability) {
   uint16_t value;
-  if (this->readTempRaw(value)) {
+  if (this->readTempRaw(value, repeatability)) {
     return STS3x::convertToCelsius(value);
   } else {
     return nan("");
@@ -145,9 +141,9 @@ float STS3x::fetchTemp(void) {
 }
 
 
-uint16_t STS3x::readTempRaw(void) {
+uint16_t STS3x::readTempRaw(const Repeatability repeatability) {
   uint16_t value;
-  this->readTempRaw(value);
+  this->readTempRaw(value, repeatability);
   return value;
 }
 
@@ -157,9 +153,21 @@ uint16_t STS3x::fetchTempRaw(void) {
   return value;
 }
 
-bool STS3x::readTempRaw(uint16_t &value) {
+bool STS3x::readTempRaw(uint16_t &value, const Repeatability repeatability) {
   uint8_t data[3] = {0};
-  bool result = this->queryCommand(STS3x::CMD_MEASURE_HIGH_REAPEATABILITY, data, sizeof(data), 15000 /*µs*/);
+  bool result;
+  switch (repeatability) {
+    case REP_HIGH:
+      result = this->queryCommand(STS3x::CMD_MEASURE_HIGH_REAPEATABILITY, data, sizeof(data), 15000 /*µs*/);
+      break;
+    case REP_MEDIUM:
+      result = this->queryCommand(STS3x::CMD_MEASURE_MEDIUM_REAPEATABILITY, data, sizeof(data), 6000 /*µs*/);
+      break;
+    case REP_LOW:
+      result = this->queryCommand(STS3x::CMD_MEASURE_LOW_REAPEATABILITY, data, sizeof(data), 4000 /*µs*/);
+      break;
+    // No default needed. All cases are handled above
+  }
 
   value = ((uint16_t)data[0] << 8) | data[1] << 0;
   return result;
