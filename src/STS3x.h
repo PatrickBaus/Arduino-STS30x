@@ -1,7 +1,7 @@
-/*    
- *  The STS30x library is free software: you can redistribute it and/or
- *  modify it under the terms of the GNU General Public License as 
- *  published by the Free Software Foundation, either version 3 of the 
+/*
+ *  The STS3x library is free software: you can redistribute it and/or
+ *  modify it under the terms of the GNU General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
@@ -11,8 +11,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef STS30x_H
-#define STS30x_H
+#ifndef STS3x_H
+#define STS3x_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -46,15 +46,15 @@ struct SensorStatus {
    bool heaterEnabled;
 };
 
-class STS30X {
+class STS3x {
   public:
-    STS30X(const uint8_t address=0x4A);
-
     #if defined(__arm__) && defined(TEENSYDUINO)
-    void begin(i2c_t3& i2cBus, const bool initBus=true);
+    STS3x(i2c_t3& i2cBus, const uint8_t address=0x4A);
     #else
-    void begin(TwoWire& i2cBus, const bool initBus=true);
+    STS3x(TwoWire& i2cBus, const uint8_t address=0x4A);
     #endif
+    void begin(void);
+
     void setHeaterState(const bool enable);
     void setContinousSampling(const MeasurementsPerSecond mps, const Repeatability rep);
     bool readStatus(SensorStatus& status);
