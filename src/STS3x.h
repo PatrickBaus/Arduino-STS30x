@@ -106,7 +106,7 @@ class STS3x {
     static const uint8_t STATUS_COMMAND_ERROR = 1 << 1;
     static const uint8_t STATUS_CRC_ERROR = 1 << 0;
 
-    bool writeCommand(const uint16_t command, const uint8_t* data=NULL, const size_t len=0);
+    bool writeCommand(const uint16_t command, uint8_t* data=NULL, const size_t len=0);
     bool queryCommand(const uint16_t command, uint8_t* result, const size_t len, const uint16_t delayus=0);
     bool readTempRaw(uint16_t &value, const Repeatability repeatability=REP_HIGH);
     bool fetchTempRaw(uint16_t &value);

@@ -46,7 +46,7 @@ uint16_t STS3x::convertToRaw(const float value) {
   return (value + 45.0f) * 65535.0f / 175.0f;
 }
 
-bool STS3x::writeCommand(const uint16_t command, const uint8_t* data, const size_t len) {
+bool STS3x::writeCommand(const uint16_t command, uint8_t* data, const size_t len) {
   uint8_t cmd[2];
 
   cmd[0] = command >> 8;
@@ -166,7 +166,10 @@ bool STS3x::readTempRaw(uint16_t &value, const Repeatability repeatability) {
     case REP_LOW:
       result = this->queryCommand(STS3x::CMD_MEASURE_LOW_REAPEATABILITY, data, sizeof(data), 4000 /*µs*/);
       break;
-    // No default needed. All cases are handled above
+    default:
+      // No default needed. All cases are handled above
+      result = false;
+      break;
   }
 
   value = ((uint16_t)data[0] << 8) | data[1] << 0;
