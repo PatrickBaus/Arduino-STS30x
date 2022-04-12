@@ -1,0 +1,31 @@
+# Syntax Coloring Map For ExampleLibrary
+
+# Datatypes (KEYWORD1)
+STS30X                  KEYWORD1
+MeasurementsPerSecond   KEYWORD1
+Repeatability           KEYWORD1
+SensorStatus            KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+begin                   KEYWORD2
+setHeaterState          KEYWORD2
+setContinousSampling    KEYWORD2
+readStatus              KEYWORD2
+clearStatus             KEYWORD2
+reset                   KEYWORD2
+stopConversion          KEYWORD2
+readTemp                KEYWORD2
+fetchTemp               KEYWORD2
+readTempRaw             KEYWORD2
+fetchTempRaw            KEYWORD2
+readSerial              KEYWORD2
+readAlertLimitsHigh     KEYWORD2
+setAlertLimitsHigh      KEYWORD2
+readAlertLimitsLow      KEYWORD2
+setAlertLimitsLow       KEYWORD2
+convertToCelsius        KEYWORD2
+convertToRaw            KEYWORD2
+
+# Instances (KEYWORD2)
+
+# Constants (LITERAL1)
