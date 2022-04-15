@@ -26,12 +26,10 @@ void setup() {
 }
 
 void loop() {
-  while (true) {
-    // The call to readTemp() will automatically block for the time the measurement takes to complete
-    Serial.print(sensor.readTemp());  // Read the temperarture as a float in °C
-    Serial.println(" °C");
-    delay(2000);
-  }
+  // The call to readTemp() will automatically block for the time the measurement takes to complete
+  Serial.print(sensor.readTemp());  // Read the temperarture as a float in °C
+  Serial.println(" °C");
+  delay(2000);
 }
 ```
 

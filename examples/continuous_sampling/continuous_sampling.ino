@@ -10,9 +10,7 @@ void setup() {
 }
 
 void loop() {
-  while (true) {
-    Serial.print(sensor.fetchTemp());  // Read the temperarture as a float in °C
-    Serial.println(" °C");
-    delay(2000);
-  }
+  Serial.print(sensor.fetchTemp());  // Read the temperarture as a float in °C
+  Serial.println(" °C");
+  delay(2000);
 }
