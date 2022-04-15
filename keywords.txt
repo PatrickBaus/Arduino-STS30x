@@ -7,7 +7,6 @@ Repeatability           KEYWORD1
 SensorStatus            KEYWORD1
 
 # Methods and Functions (KEYWORD2)
-begin                   KEYWORD2
 setHeaterState          KEYWORD2
 setContinousSampling    KEYWORD2
 readStatus              KEYWORD2
