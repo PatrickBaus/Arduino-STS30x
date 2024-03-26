@@ -13,7 +13,7 @@
  */
 #include "STS3x.h"
 
-#if defined(__arm__) && defined(TEENSYDUINO)
+#if defined(__arm__) && defined(TEENSYDUINO) && (defined(__MK66FX1M0__) || defined(__MK64FX512__) || defined(__MK20DX256__) || defined(__MK20DX128__) || defined(__MKL26Z64__))
 STS3x::STS3x(i2c_t3& i2cBus, const uint8_t address) : _pI2cBus(&i2cBus), _i2c_addr(address) {};
 #else
 STS3x::STS3x(TwoWire& i2cBus, const uint8_t address) : _pI2cBus(&i2cBus), _i2c_addr(address) {};
@@ -96,7 +96,7 @@ bool STS3x::readStatus(SensorStatus& status) {
 
 void STS3x::clearStatus(void) {
   this->writeCommand(STS3x::CMD_CLEAR_STATUS);
-  delayMicroseconds(10);
+  delay(1);
 }
 
 uint32_t STS3x::readSerial(void) {
